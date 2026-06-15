@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('stocks_header', function (Blueprint $table) {
+            $table->id();
+            $table->integer('client_id')->nullable();
+            $table->string('db_name')->nullable();
+            $table->string('ItemCode')->nullable();
+            $table->string('ItemName')->nullable();  
+            $table->string('SWW')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('stocks_header');
+    }
+};

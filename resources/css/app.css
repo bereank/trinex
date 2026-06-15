@@ -1,0 +1,4 @@
+/* Make all Filament text slightly bigger */
+.filament-main-content {
+    font-size: 0.7rem; /* Default is 0.875rem (~14px) */
+}

@@ -1,0 +1,182 @@
+[
+      {
+        "Acct": 111601,
+        "Acct Name": "Trucks"
+      },
+      {
+        "Acct": 111901,
+        "Acct Name": "Office Equipment"
+      },
+      {
+        "Acct": 142201,
+        "Acct Name": "Staff loans"
+      },
+      {
+        "Acct": 142202,
+        "Acct Name": "Salary Advance"
+      },
+      {
+        "Acct": 144125,
+        "Acct Name": "PETTY CASH - KISUMU"
+      },
+      {
+        "Acct": 144127,
+        "Acct Name": "PETTY CASH - ELDORET"
+      },
+      {
+        "Acct": 211121,
+        "Acct Name": "DIRECTORS CURRENT ACCOUNT"
+      },
+      {
+        "Acct": 511101,
+        "Acct Name": "COGS - FUEL - DIESEL"
+      },
+      {
+        "Acct": 511131,
+        "Acct Name": "COGS - TYRES & TUBES"
+      },
+      {
+        "Acct": 511302,
+        "Acct Name": "LICENCES & REGISTRATION TRUCKS"
+      },
+      {
+        "Acct": 511303,
+        "Acct Name": "BREAK DOWN EXPENSES"
+      },
+      {
+        "Acct": 511304,
+        "Acct Name": "REPAIR AND MAINTENANCE TRUCKS"
+      },
+      {
+        "Acct": 511306,
+        "Acct Name": "INSPECTION FEES TRUCKS"
+      },
+      {
+        "Acct": 511307,
+        "Acct Name": "CALIBRATION CHARGES"
+      },
+      {
+        "Acct": 511308,
+        "Acct Name": "MEDICAL EXAMINATION DRIVERS"
+      },
+      {
+        "Acct": 511309,
+        "Acct Name": "MILEAGES EXPENSES"
+      },
+      {
+        "Acct": 511310,
+        "Acct Name": "PARKING AND FERRY FEES TRUCKS"
+      },
+      {
+        "Acct": 511311,
+        "Acct Name": "TRANSIT LOSSES/LOST ITEMS"
+      },
+      {
+        "Acct": 511313,
+        "Acct Name": "OFFLOADING FEES"
+      },
+      {
+        "Acct": 511314,
+        "Acct Name": "WEIGHBRIDGES"
+      },
+      {
+        "Acct": 611102,
+        "Acct Name": "Casual Wages"
+      },
+      {
+        "Acct": 611110,
+        "Acct Name": "Kitchen Ration & Expenses"
+      },
+      {
+        "Acct": 611111,
+        "Acct Name": "Staff Welfare"
+      },
+      {
+        "Acct": 612101,
+        "Acct Name": "Printing & Stationary"
+      },
+      {
+        "Acct": 612102,
+        "Acct Name": "Postage & Courier"
+      },
+      {
+        "Acct": 612106,
+        "Acct Name": "Telephone Expenses"
+      },
+      {
+        "Acct": 612107,
+        "Acct Name": "GENERAL OFFICE EXPENSES"
+      },
+      {
+        "Acct": 612122,
+        "Acct Name": "CUSTOMER ENTERTAINMENT"
+      },
+      {
+        "Acct": 612141,
+        "Acct Name": "HSSE EXPENSE"
+      },
+      {
+        "Acct": 612202,
+        "Acct Name": "Computer Repairs & software Maintenance"
+      },
+      {
+        "Acct": 612502,
+        "Acct Name": "Licence Expense"
+      },
+      {
+        "Acct": 612601,
+        "Acct Name": "Fines & Penalties"
+      },
+      {
+        "Acct": 612901,
+        "Acct Name": "Marketing & Promotion Expenses"
+      },
+      {
+        "Acct": 612902,
+        "Acct Name": "ADVERTISING"
+      },
+      {
+        "Acct": 613201,
+        "Acct Name": "Travel & Accomodation"
+      },
+      {
+        "Acct": 613301,
+        "Acct Name": "Transport Expense"
+      },
+      {
+        "Acct": 613401,
+        "Acct Name": "MOTOR VEHICLE REPAIR & MAINTENANCE"
+      },
+      {
+        "Acct": 613421,
+        "Acct Name": "MOTOR CYCLE EXPENSE"
+      },
+      {
+        "Acct": 613501,
+        "Acct Name": "Nairobi Workshop Expense"
+      },
+      {
+        "Acct": 613611,
+        "Acct Name": "Kisumu Yard Expense"
+      },
+      {
+        "Acct": 613621,
+        "Acct Name": "Eldoret Yard Expense"
+      },
+      {
+        "Acct": 613641,
+        "Acct Name": "Nairobi Yard Expense"
+      },
+      {
+        "Acct": 613801,
+        "Acct Name": "Rent Expense"
+      },
+      {
+        "Acct": 683701,
+        "Acct Name": "Donations"
+      },
+      {
+        "Acct": 711122,
+        "Acct Name": "Mpesa Charges"
+      }
+]
