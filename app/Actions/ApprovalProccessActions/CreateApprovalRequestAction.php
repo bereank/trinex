@@ -6,12 +6,14 @@ use App\Models\ApprovalProcess\ApprovalRequestLineModel;
 use App\Models\ApprovalProcess\ApprovalRequestModel;
 use App\Models\ApprovalProcess\ApprovalStage;
 use App\Models\ApprovalProcess\ApprovalTemplate;
+use App\Models\ChartOfAccount;
+use App\Models\JournalEntryDraft;
 use App\Models\ODRF;
 use Illuminate\Support\Collection;
 
 class CreateApprovalRequestAction
 {
-    public function __construct(protected ODRF $draftDocument, protected ApprovalTemplate $approvalTemplate, protected Collection $approvalStageApprovers)
+    public function __construct(protected ODRF|JournalEntryDraft $draftDocument, protected ApprovalTemplate $approvalTemplate, protected Collection $approvalStageApprovers)
     {
 
         $this->draftDocument = $draftDocument;

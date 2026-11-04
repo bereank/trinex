@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('CompanyName')->nullable();
             $table->string('U_PCash')->nullable();
             $table->string('U_TypePur')->nullable();
+            $table->integer('type')->default(0)->comment('0=Purchase, 1=Sales, 2=Payment, 3=Receipt, 4=Journal');
             $table->timestamps();
         });
     }

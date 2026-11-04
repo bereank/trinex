@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ApprovalTemplates\RelationManagers;
 
 
+use App\Models\ApprovalProcess\ApprovalStage;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Select;
@@ -21,12 +22,14 @@ class ApprovalStagesRelationManager extends RelationManager
             ->components([
                 Select::make('approval_stage_id')
                     ->label('Approval Stage')
-                    ->relationship('approvalStage', 'name')
+                    ->options(
+                        ApprovalStage::query()
+                            ->pluck('name', 'id')
+                    )
                     ->searchable()
                     ->preload()
-                    ->required(),
-            ])
-            ->columns(6);
+                    ->required()
+            ]);
     }
 
     public function table(Table $table): Table

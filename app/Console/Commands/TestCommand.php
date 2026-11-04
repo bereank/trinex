@@ -2,26 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Actions\ApprovalProccessActions\DetermineDocumentApprovalStatus;
-use App\Actions\PettyCashDocumentAction;
-use App\Actions\ReportActions\GeneratePDFDocumentAction;
-use App\Jobs\NotifierApproverJob;
-use App\Jobs\NotifierCashierDocumentApprovalJob;
-use App\Jobs\NotifierCreatorDocumentApprovalJob;
-use App\Jobs\NotifierCreatorDocumentRejectedJob;
-use App\Mail\NotifierCashierDocumentApprovalMail;
-use App\Models\ApprovalProcess\ApprovalRequestLineModel;
-use App\Models\ApprovalProcess\ApprovalRequestModel;
-use App\Models\ApprovalProcess\ApprovalStage;
-use App\Models\ODRF;
-use App\Models\OWDD;
-use App\Models\User;
-use App\Services\Shared\AuthService;
+use App\Actions\ApprovalProccessActions\DetermineApprovalStagesAction;
+use App\Models\ChartOfAccount;
+use App\Models\JournalEntryDraft;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 
 class TestCommand extends Command
 {
@@ -47,37 +32,86 @@ class TestCommand extends Command
     public function handle()
     {
 
-        DB::table('users')->insert([
-            'name' => 'Demo Admin 1',
-            'email' => 'demo1@techrise.co.ke',
-            'password' => Hash::make('Trading@1'),
-            'ExtUserCode' => 'ADMIN',
-            'email_verified_at' => \Carbon\Carbon::now(),
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-            'company_id' => '1',
-            'UserType' => 2,
-            'isSystemUser' => 1
-        ]);
+    $journalEntry = JournalEntryDraft::first();
 
-        DB::table('users')->insert([
-            'name' => 'Demo Admin 2',
-            'email' => 'demo2@techrise.co.ke',
-            'password' => Hash::make('Trading@1'),
-            'ExtUserCode' => 'ADMIN',
-            'email_verified_at' => \Carbon\Carbon::now(),
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now(),
-            'company_id' => '1',
-            'UserType' => 2,
-            'isSystemUser' => 1
-        ]);
+       (new DetermineApprovalStagesAction($journalEntry))->handle();
+
+    dd('done');
 
 
 
+        $chartOfAccounts = [
+            [
+                'AcctCode' => '1000',
+                'AcctName' => 'Cash',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '2000',
+                'AcctName' => 'Accounts Receivable',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '3000',
+                'AcctName' => 'Inventory',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '4000',
+                'AcctName' => 'Accounts Payable',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '5000',
+                'AcctName' => 'Sales Revenue',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '6000',
+                'AcctName' => 'Cost of Goods Sold',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => '7000',
+                'AcctName' => 'Operating Expenses',
+                'Type' => 'G/L',
+            ],
+            [
+                'AcctCode' => 'CUST001',
+                'AcctName' => 'Customer A',
+                'Type' => 'Customer',
+            ],
+            [
+                'AcctCode' => 'CUST002',
+                'AcctName' => 'Customer B',
+                'Type' => 'Customer',
+            ],
+            [
+                'AcctCode' => 'CUST003',
+                'AcctName' => 'Customer C',
+                'Type' => 'Customer',
+            ],
+            [
+                'AcctCode' => 'VEND001',
+                'AcctName' => 'Vendor A',
+                'Type' => 'Supplier',
+            ],
+            [
+                'AcctCode' => 'VEND002',
+                'AcctName' => 'Vendor B',
+                'Type' => 'Supplier',
+            ],
+        ];
 
-        // $draftDocument = ODRF::with('createdBy')->first();
+        foreach ($chartOfAccounts as $key => $chartOfAccount) {
+            ChartOfAccount::firstOrCreate([
+                'AcctCode' => $chartOfAccount['AcctCode'],
+            ], [
+                'AcctName' => $chartOfAccount['AcctName'],
+                'Type' => $chartOfAccount['Type'],
+            ]);
+        }
 
-        // $action = (new PettyCashDocumentAction($draftDocument))->handle();
+
     }
 }

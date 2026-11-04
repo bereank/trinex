@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('user_databases', function (Blueprint $table) {
-            $table->integer('default_template_id')->nullable();
+            //$table->integer('default_template_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('user_databases', function (Blueprint $table) {
-            $table->integer('default_template_id')->nullable();
+          //  $table->integer('default_template_id')->nullable();
         });
     }
 };

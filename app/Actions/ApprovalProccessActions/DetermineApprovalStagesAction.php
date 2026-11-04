@@ -3,11 +3,13 @@
 namespace App\Actions\ApprovalProccessActions;
 
 use App\Models\ApprovalProcess\ApprovalTemplate;
+use App\Models\ChartOfAccount;
+use App\Models\JournalEntryDraft;
 use App\Models\ODRF;
 
 class DetermineApprovalStagesAction
 {
-    public function __construct(protected ODRF $draftDocument)
+    public function __construct(protected ODRF|JournalEntryDraft $draftDocument)
     {
 
         $this->draftDocument = $draftDocument;
@@ -18,7 +20,10 @@ class DetermineApprovalStagesAction
 
         $draftDocument = $this->draftDocument;
 
+        
         $stagesDocumentHasToThrough = collect([]);
+
+
 
 
         $currentDatabaseUserSettings = $draftDocument->requestedby->databases->where('client_id', $draftDocument->client_id)->first();
@@ -36,7 +41,7 @@ class DetermineApprovalStagesAction
             $draftDocument->update([
                 'WddStatus' => 'Y',
             ]);
-            return false;
+       
             throw new \ErrorException('Your Approval Maxtrix in not set, Contact IT Department');
         }
 
@@ -50,10 +55,11 @@ class DetermineApprovalStagesAction
             $draftDocument->update([
                 'WddStatus' => 'Y',
             ]);
-            return false;
+      
             throw new \ErrorException('Your Approval Maxtrix in not set, Contact IT Department');
         }
 
+  
         (new CreateApprovalRequestAction($draftDocument, $defaultApprovalTemplateOfRequester, $stagesDocumentHasToThrough))->handle();
         $draftDocument->update([
             'WddStatus' => 'W',
