@@ -43,6 +43,9 @@ class EditJournalEntryDraft extends EditRecord
                 ->hidden(fn($record) => $record->reference_3 !== null || $record->approval_status === 'W')
                 ->icon('heroicon-o-check-badge')
                 ->color('primary')
+                ->successRedirectUrl(
+                    static::getResource()::getUrl('index')
+                )
                 ->action(function ($record) {
 
                     try {
@@ -71,7 +74,7 @@ class EditJournalEntryDraft extends EditRecord
                 ->visible($approvalRequest && $approvalRequest->WddStatus === 'W')
                 ->icon('heroicon-o-check-badge')
                 ->color('success')
-                  ->successRedirectUrl(url()->current())
+                ->successRedirectUrl(url()->current())
                 ->action(function ($record) {
 
                     DB::beginTransaction();
