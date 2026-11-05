@@ -59,8 +59,9 @@ class JournalEntryDraftsTable
 
        
             ])
+            ->defaultSort('id', 'desc')
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->visible(fn($record) => !$record->reference_3),
 
                    Action::make('view_related')
                     ->label('Approval Report')
