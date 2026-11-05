@@ -1,0 +1,27 @@
+{
+    "ReferenceDate": "2026-11-05",
+    "Reference": "Testing Remarks",
+    "Reference2": 1,
+    "Indicator": "EP",
+    "DueDate": "2026-11-05",
+    "TaxDate": "2026-11-05",
+    "Memo": "Testing Remarks",
+    "JournalEntryLines": [
+        [
+            {
+                "AccountCode": "2114003",
+                "Debit": 100,
+                "Credit": 0,
+                "LineMemo": "EXTRA CENT"
+            }
+        ],
+        [
+            {
+                "AccountCode": "1131011",
+                "Debit": 0,
+                "Credit": 100,
+                "LineMemo": "I&M BANK"
+            }
+        ]
+    ]
+}

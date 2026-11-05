@@ -3,12 +3,9 @@
 namespace App\Filament\Resources\JournalEntryDrafts\Schemas;
 
 use App\Models\ChartOfAccount;
-use App\Models\JournalEntryDraft as JournalEntryDraftModel;
-use App\Models\UserDatabase;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Repeater\TableColumn;
 use Filament\Forms\Components\Select;
@@ -17,7 +14,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,12 +26,12 @@ class JournalEntryDraftForm
             ->components([
                 Section::make('Journal Entry Header')
                     ->schema([
-                
-                        TextInput::make('reference_1')->label('Reference 1')->maxLength(100),
-               
-                        TextInput::make('reference_2')->label('Reference 2')->maxLength(100),
-                        TextInput::make('series')->label('Series')->required()->maxLength(100)->default('Primary'),
-                        TextInput::make('reference_3')->label('Reference 3')->maxLength(100),
+
+                        TextInput::make('reference_1')->label('Reference 1')->required()->maxLength(100),
+
+                        // TextInput::make('reference_2')->label('Reference 2')->maxLength(100),
+                        // TextInput::make('series')->label('Series')->required()->maxLength(100)->default('Primary'),
+                        // TextInput::make('reference_3')->label('Reference 3')->maxLength(100),
                         // TextInput::make('currency')->label('Currency')->required()->maxLength(10)->default('XAF'),
                         // TextInput::make('exchange_rate')
                         //     ->label('Exchange Rate')
@@ -44,7 +40,7 @@ class JournalEntryDraftForm
                         //     ->step(0.000001)
                         //     ->default('1.000000')
                         //     ->required(),
-                    
+
                         DatePicker::make('posting_date')->label('Posting Date')->required()->default(now()),
                         DatePicker::make('due_date')->label('Due Date'),
                         DatePicker::make('document_date')->label('Document Date')->required()->default(now()),
@@ -136,7 +132,7 @@ class JournalEntryDraftForm
                                     ->addActionLabel('Add Row')
                                     ->reorderable(false)
                                     ->columnSpanFull(),
-                         
+
                             ])
                             ->columns(2),
                         Tab::make('Remarks')

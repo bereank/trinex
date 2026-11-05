@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Actions\ApprovalProccessActions\GetExpressWayPendingApprovalAction;
 use App\Actions\ApprovalProccessActions\GetJournalPendingApprovalAction;
+use App\Filament\Resources\JournalEntryDrafts\JournalEntryDraftResource;
 use App\Filament\Resources\PettyCashes\PettyCashResource;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -99,7 +100,7 @@ class ApprovalJournalRequest extends Page implements HasTable
                 Action::make('approvalRequest')
                     ->label('Approval')
                     ->icon('heroicon-o-check-circle')
-                    ->url(fn($record) => PettyCashResource::getUrl(name: 'view', parameters: ['record' => $record->id]))
+                    ->url(fn($record) => JournalEntryDraftResource::getUrl(name: 'edit', parameters: ['record' => $record->id]))
                     ->openUrlInNewTab(),
 
 

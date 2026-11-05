@@ -57,21 +57,21 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->navigationItems([
-                NavigationItem::make('Nairobi Service Centers')
-                    ->url('/admin/dashboard')
-                    ->sort(1)
-                    ->icon('heroicon-o-clipboard-document-list'),
-                NavigationItem::make('Daily Mains Summary')
-                    ->url('/admin/dashboard')
-                    ->sort(2)
-                    ->icon('heroicon-o-clipboard-document'),
-                NavigationItem::make('Expense Item Report')
-                    ->url('/admin/odrf-reports/expense-items')
-                    ->group('Reports')
-                    ->sort(3)
-                    ->icon('heroicon-o-queue-list'),
-            ])
+            // ->navigationItems([
+            //     NavigationItem::make('Nairobi Service Centers')
+            //         ->url('/admin/dashboard')
+            //         ->sort(1)
+            //         ->icon('heroicon-o-clipboard-document-list'),
+            //     NavigationItem::make('Daily Mains Summary')
+            //         ->url('/admin/dashboard')
+            //         ->sort(2)
+            //         ->icon('heroicon-o-clipboard-document'),
+            //     NavigationItem::make('Expense Item Report')
+            //         ->url('/admin/odrf-reports/expense-items')
+            //         ->group('Reports')
+            //         ->sort(3)
+            //         ->icon('heroicon-o-queue-list'),
+            // ])
             ->authMiddleware([
                 Authenticate::class,
             ])->maxContentWidth(Width::Full)->spa();

@@ -2,9 +2,22 @@
 
 namespace App\Filament\Resources\JournalEntryDrafts\Pages;
 
+use App\Actions\ApprovalProccessActions\DetermineDocumentApprovalStatus;
+use App\Actions\ApprovalProccessActions\DetermineJournalEntryApprovalStatus;
+use App\Actions\ApprovalProccessActions\GetExpressWayPendingApprovalAction;
+use App\Actions\ApprovalProccessActions\GetJournalPendingApprovalAction;
+use App\Actions\PettyCashDocumentAction;
+use App\Actions\PostJournalEntryDocumentAction;
 use App\Actions\PrepareJournalEntryDraftData;
 use App\Filament\Resources\JournalEntryDrafts\JournalEntryDraftResource;
+use App\Models\ApprovalProcess\ApprovalRequestLineModel;
+use App\Models\ApprovalProcess\ApprovalRequestModel;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class EditJournalEntryDraft extends EditRecord
@@ -12,6 +25,127 @@ class EditJournalEntryDraft extends EditRecord
     protected static string $resource = JournalEntryDraftResource::class;
 
     protected array $previousAttachments = [];
+
+    protected function getHeaderActions(): array
+    {
+
+
+
+        $expressWayApprovalRequest = (new GetJournalPendingApprovalAction(1001))->handle();
+
+        $approvalRequest = collect($expressWayApprovalRequest)->firstWhere('id', $this->record->id);
+        return [
+
+
+            Action::make('approve')
+                ->label('Approve Document')
+                ->requiresConfirmation()
+                ->visible($approvalRequest && $approvalRequest->WddStatus === 'W')
+                ->icon('heroicon-o-check-badge')
+                ->color('success')
+                ->action(function ($record) {
+
+                    DB::beginTransaction();
+                    try {
+
+                        $draftDocument = $record;
+                        $approvalRequest = ApprovalRequestModel::where('DraftEntry', $record->id)->first();
+
+                        $approvalRequestLine = ApprovalRequestLineModel::with('approvalrequest', 'approvalstage', 'authorizer')
+                            ->where('WddCode', $approvalRequest->id)
+                            ->where('StepCode', $approvalRequest->CurrStep)
+                            ->where('UserID', Auth::user()->id)
+                            ->where('Status', 'W')
+                            ->first();
+
+
+
+                        $approvalRequestLine->update([
+                            'Remarks' => 'Approved by ',
+                            'UpdateDate' => now(),
+                            'Status' => 'Y',
+                        ]);
+
+                        $approvalRequest = ApprovalRequestModel::where('id', $approvalRequestLine->WddCode)->first();
+
+                        (new DetermineJournalEntryApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
+
+                         (new PostJournalEntryDocumentAction($draftDocument))->handle();
+                        DB::commit();
+
+
+                        // (new PettyCashDocumentAction($draftDocument))->handle();
+                        Notification::make()
+                            ->title('Posted Successfully')
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $th) {
+
+                        DB::rollBack();
+                        Log::info($th);
+
+                        Notification::make()
+                            ->title($th->getMessage())
+                            ->warning()
+                            ->send();
+                    }
+                }),
+
+            Action::make('reject')
+                ->label('Reject Document')
+                ->requiresConfirmation()
+                ->visible($approvalRequest && $approvalRequest->WddStatus === 'W')
+                ->icon('heroicon-o-x-mark')
+                ->color('danger')
+                ->action(function ($record) {
+
+                    try {
+
+
+                        $draftDocument = $record;
+                        $approvalRequest = ApprovalRequestModel::where('DraftEntry', $record->id)->first();
+
+                        $approvalRequestLine = ApprovalRequestLineModel::with('approvalrequest', 'approvalstage', 'authorizer')
+                            ->where('WddCode', $approvalRequest->id)
+                            ->where('StepCode', $approvalRequest->CurrStep)
+                            ->where('UserID', Auth::user()->id)
+                            ->where('Status', 'W')
+                            ->first();
+
+                        dd($approvalRequestLine);
+
+
+                        $approvalRequestLine->update([
+                            'Remarks' => 'Rejected ',
+                            'UpdateDate' => now(),
+                            'Status' => 'N',
+                        ]);
+
+                        $approvalRequest = ApprovalRequestModel::where('id', $approvalRequestLine->WddCode)->first();
+
+                        (new DetermineDocumentApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
+
+
+
+                        Notification::make()
+                            ->title('Posted Successfully')
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $th) {
+
+
+                        Log::info($th);
+
+                        Notification::make()
+                            ->title($th->getMessage())
+                            ->warning()
+                            ->send();
+                    }
+                }),
+        ];
+    }
+
+
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
@@ -24,7 +158,7 @@ class EditJournalEntryDraft extends EditRecord
     protected function afterSave(): void
     {
         $currentAttachments = $this->record->attachments ?? [];
-        $userDirectory = 'journal-entry-drafts/'.auth()->id().'/';
+        $userDirectory = 'journal-entry-drafts/' . auth()->id() . '/';
         $removedAttachments = array_diff($this->previousAttachments, $currentAttachments);
 
         foreach ($removedAttachments as $path) {

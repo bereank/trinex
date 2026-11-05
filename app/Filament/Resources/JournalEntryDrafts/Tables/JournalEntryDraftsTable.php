@@ -50,7 +50,13 @@ class JournalEntryDraftsTable
                         'N' => 'danger',
                         'Y' => 'success',
                         'W' => 'primary',
-                    })
+                    }),
+                    
+                       TextColumn::make('reference_3')
+
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
        
             ])
             ->recordActions([
