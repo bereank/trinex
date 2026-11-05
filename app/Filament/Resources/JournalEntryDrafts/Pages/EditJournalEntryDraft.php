@@ -37,6 +37,34 @@ class EditJournalEntryDraft extends EditRecord
         return [
 
 
+                Action::make('sync_production')
+                ->label('Post Journal Entry')
+                ->requiresConfirmation()
+                ->hidden(fn($record) => $record->reference_3)
+                ->icon('heroicon-o-check-badge')
+                ->color('primary')
+                ->action(function ($record) {
+
+                    try {
+
+                        (new PostJournalEntryDocumentAction($record))->handle();
+
+                        Notification::make()
+                            ->title('Posted Successfully')
+                            ->success()
+                            ->send();
+                    } catch (\Throwable $th) {
+
+                        Log::info($th);
+
+                        Notification::make()
+                            ->title($th->getMessage())
+                            ->warning()
+                            ->send();
+                    }
+
+                }),
+
             Action::make('approve')
                 ->label('Approve Document')
                 ->requiresConfirmation()
@@ -70,7 +98,7 @@ class EditJournalEntryDraft extends EditRecord
 
                         (new DetermineJournalEntryApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
 
-                         (new PostJournalEntryDocumentAction($draftDocument))->handle();
+                       
                         DB::commit();
 
 
