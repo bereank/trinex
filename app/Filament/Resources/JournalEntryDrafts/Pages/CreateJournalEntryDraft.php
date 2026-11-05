@@ -59,4 +59,9 @@ class CreateJournalEntryDraft extends CreateRecord
             return $certification;
         }
     }
+
+      protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
