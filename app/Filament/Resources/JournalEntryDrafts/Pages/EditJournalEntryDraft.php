@@ -74,7 +74,9 @@ class EditJournalEntryDraft extends EditRecord
                 ->visible($approvalRequest && $approvalRequest->WddStatus === 'W')
                 ->icon('heroicon-o-check-badge')
                 ->color('success')
-                ->successRedirectUrl(url()->current())
+                  ->successRedirectUrl(
+                    static::getResource()::getUrl('index')
+                )
                 ->action(function ($record) {
 
                     DB::beginTransaction();
@@ -99,6 +101,9 @@ class EditJournalEntryDraft extends EditRecord
                         ]);
 
 
+                          $approvalRequest = ApprovalRequestModel::where('id', $approvalRequestLine->WddCode)->first();
+
+                        (new DetermineDocumentApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
 
 
 
@@ -139,8 +144,6 @@ class EditJournalEntryDraft extends EditRecord
                             ->where('UserID', Auth::user()->id)
                             ->where('Status', 'W')
                             ->first();
-
-                        dd($approvalRequestLine);
 
 
                         $approvalRequestLine->update([
