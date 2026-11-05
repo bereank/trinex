@@ -37,10 +37,10 @@ class EditJournalEntryDraft extends EditRecord
         return [
 
 
-                Action::make('sync_production')
+            Action::make('sync_production')
                 ->label('Post Journal Entry')
                 ->requiresConfirmation()
-                ->hidden(fn($record) => $record->reference_3)
+                ->hidden(fn($record) => $record->reference_3 !== null || $record->approval_status === 'W')
                 ->icon('heroicon-o-check-badge')
                 ->color('primary')
                 ->action(function ($record) {
@@ -71,6 +71,7 @@ class EditJournalEntryDraft extends EditRecord
                 ->visible($approvalRequest && $approvalRequest->WddStatus === 'W')
                 ->icon('heroicon-o-check-badge')
                 ->color('success')
+                  ->successRedirectUrl(url()->current())
                 ->action(function ($record) {
 
                     DB::beginTransaction();
@@ -94,15 +95,11 @@ class EditJournalEntryDraft extends EditRecord
                             'Status' => 'Y',
                         ]);
 
-                        $approvalRequest = ApprovalRequestModel::where('id', $approvalRequestLine->WddCode)->first();
 
-                        (new DetermineJournalEntryApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
 
-                       
+
+
                         DB::commit();
-
-
-                        // (new PettyCashDocumentAction($draftDocument))->handle();
                         Notification::make()
                             ->title('Posted Successfully')
                             ->success()
