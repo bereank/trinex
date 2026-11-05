@@ -103,7 +103,7 @@ class EditJournalEntryDraft extends EditRecord
 
                           $approvalRequest = ApprovalRequestModel::where('id', $approvalRequestLine->WddCode)->first();
 
-                        (new DetermineDocumentApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
+                        (new DetermineJournalEntryApprovalStatus($approvalRequest, $approvalRequestLine))->handle();
 
 
 
